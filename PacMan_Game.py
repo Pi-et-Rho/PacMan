@@ -12,9 +12,11 @@ next_move = 0
 show_grid = True
 
 ground_color = "#000000"
-player_color = "#FFFF00"
+player_image = pygame.image.load("Images\PacMan.png")
+player_image = pygame.transform.scale(player_image, (tilesize, tilesize))
 wall_color = "#0000FF"
-ghost_color = "#34FFFF"
+ghost_image = pygame.image.load("Images\Ghost.png")
+ghost_image = pygame.transform.scale(ghost_image, (tilesize, tilesize))
 
 screen = pygame.display.set_mode((size[0] * tilesize, size[1] * tilesize))
 clock = pygame.time.Clock()
@@ -99,9 +101,9 @@ while running:
     map.DrawMap(screen, tilesize)
 
     for ghost in ghost_list:
-        pygame.draw.circle(screen, ghost_color, (int(ghost.position.x * tilesize + tilesize // 2), int(ghost.position.y * tilesize + tilesize // 2)), tilesize / 2)
+        screen.blit(ghost_image, (int(ghost.position.x * tilesize), int(ghost.position.y * tilesize)))
 
-    pygame.draw.circle(screen, player_color, (int(player_pos.x * tilesize + tilesize // 2), int(player_pos.y * tilesize + tilesize // 2)), tilesize / 2)
+    screen.blit(player_image, (int(player_pos.x * tilesize), int(player_pos.y * tilesize)))
 
     pygame.display.flip()
     DeltaTime = clock.tick(fps)
