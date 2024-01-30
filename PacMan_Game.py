@@ -1,5 +1,5 @@
 import pygame
-from PacMan_Class import PacMan
+from PacMan_Class import PacMan, Ghost
 
 pygame.init()
 
@@ -14,6 +14,7 @@ show_grid = True
 ground_color = "#000000"
 player_color = "#FFFF00"
 wall_color = "#0000FF"
+ghost_color = "#34FFFF"
 
 screen = pygame.display.set_mode((size[0] * tilesize, size[1] * tilesize))
 clock = pygame.time.Clock()
@@ -22,6 +23,7 @@ DeltaTime = 0
 keys = {"UP": 0, "DOWN": 0, "LEFT": 0, "RIGHT": 0}
 
 player_pos = pygame.Vector2(1, 6)
+ghost_list = [Ghost((1, 1)), Ghost((1, 2)), Ghost((1, 3))]
 
 map = PacMan(28, 12, 'Level1.csv', pygame.Color(wall_color))
 map.ReadFile()
@@ -90,7 +92,14 @@ while running:
 
         next_move = -player_speed
 
+        for ghost in ghost_list:
+            ghost.move_random(size, map.GetMatrice())
+
+
     map.DrawMap(screen, tilesize)
+
+    for ghost in ghost_list:
+        pygame.draw.circle(screen, ghost_color, (int(ghost.position.x * tilesize + tilesize // 2), int(ghost.position.y * tilesize + tilesize // 2)), tilesize / 2)
 
     pygame.draw.circle(screen, player_color, (int(player_pos.x * tilesize + tilesize // 2), int(player_pos.y * tilesize + tilesize // 2)), tilesize / 2)
 
